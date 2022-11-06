@@ -82,7 +82,5 @@ func getDate() string {
     dt := time.Now()
 	now := dt.Format(("15:04:05"))
 
-	fmt.Printf("test: %v\n",now)
-
 	return now
 }
