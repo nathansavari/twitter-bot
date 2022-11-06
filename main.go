@@ -46,8 +46,7 @@ func main(){
 
 	for {
 
-
-		if getDate() == "14:51:00" {
+		if getDate() == "21:12:00" {
 			
 		// the tweet
 
@@ -58,21 +57,17 @@ func main(){
 			fmt.Printf("err: %v\n", err)
 		} else {
 			fmt.Println("Twitted successfully!")
-			continue
 		}
 
 		} 
 
 	}
-	
-
-	
 
 
 }
 
 func getEnv() (string, string, string, string) {
-	
+
 	consumerKey := os.Getenv("CONSUMER_KEY")
 	consumerSecret := os.Getenv("CONSUMER_SECRET")
 	accessToken := os.Getenv("ACCESS_TOKEN_KEY")
