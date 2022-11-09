@@ -32,7 +32,7 @@ func main(){
 
 	consumerKey, consumerSecret, accessToken, accessTokenSecret, apiKey := getEnv()
 
-	getData(apiKey)
+	fact := getData(apiKey)
 
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
 	token := oauth1.NewToken(accessToken, accessTokenSecret)
@@ -52,13 +52,11 @@ func main(){
 
 	for {
 
-		if getDate() == "21:12:00" {
+		if getDate() == "12:00:00" {
 			
 		// the tweet
 
-		date := getDate()
-
-		_, _, err = client.Statuses.Update(date, nil)
+		_, _, err = client.Statuses.Update(fact, nil)
 		if err != nil {
 			fmt.Printf("err: %v\n", err)
 		} else {
@@ -68,7 +66,6 @@ func main(){
 		} 
 
 	}
-
 
 }
 
@@ -91,15 +88,15 @@ func getDate() string {
 	return now
 }
 
-func getData(apiKey string)  {
+func getData(apiKey string) string  {
 
 	type Obj struct {
 		Fact string `json:"fact"`
 	}
 	
-	var data []Obj
+	// init the objet
 
-	
+	var data []Obj
 
 	client := &http.Client{}
 
@@ -114,11 +111,15 @@ func getData(apiKey string)  {
 		log.Fatal(err)
 	}
 
-	// fmt.Printf("Response: %v\n", resp)
+	// fetch the body & transform it into bytes
 
 	body, err := ioutil.ReadAll(resp.Body)
+
+	// put bytes in the object
 	
 	json.Unmarshal(body, &data)
 
-	fmt.Printf("Data: %v\n", data)
+	fact := data[0].Fact
+
+	return fact
 }
