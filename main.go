@@ -10,7 +10,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main(){
+func main() {
 
 	// load .env file from given path
 	// we keep it empty it will load .env from current directory
@@ -21,7 +21,7 @@ func main(){
 		log.Fatalf("Error loading .env file")
 	}
 
-	// getting env variables 
+	// getting env variables
 
 	consumerKey, consumerSecret, accessToken, accessTokenSecret := getEnv()
 

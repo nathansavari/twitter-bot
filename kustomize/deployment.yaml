@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitter-bot
+  labels:
+    app: twitter-bot
+    name: twitter-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: twitter-bot
+      task: twitter-bot
+  template:
+    metadata:
+      labels:
+        app: twitter-bot
+        name: twitter-bot
+        task: twitter-bot
+    spec:
+      containers:
+        - name: twitter-bot
+          image: tronconneur/twitter-bot:{{TAG}}
+          imagePullPolicy: Always
