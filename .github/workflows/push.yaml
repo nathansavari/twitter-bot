@@ -24,10 +24,10 @@ jobs:
     
     - name: Build the Docker image # push The image to the docker hub
       run: |
-        docker build . -t tronconneur/twitter-bot:${{ github.sha }}
-          --build-arg BUILD_CONSUMER_KEY=$BUILD_CONSUMER_KEY
-          --build-arg BUILD_ACCESS_TOKEN_KEY=$BUILD_ACCESS_TOKEN_KEY
-          --build-arg BUILD_CONSUMER_SECRET=$BUILD_CONSUMER_SECRET
+        docker build . -t tronconneur/twitter-bot:${{ github.sha }} \
+          --build-arg BUILD_CONSUMER_KEY=$BUILD_CONSUMER_KEY \
+          --build-arg BUILD_ACCESS_TOKEN_KEY=$BUILD_ACCESS_TOKEN_KEY \
+          --build-arg BUILD_CONSUMER_SECRET=$BUILD_CONSUMER_SECRET \
           --build-arg BUILD_ACCESS_TOKEN_SECRET=$BUILD_ACCESS_TOKEN_SECRET
     
     - name: Docker Push
