@@ -33,6 +33,8 @@ func main() {
 
 	consumerKey, consumerSecret, accessToken, accessTokenSecret, apiKey := getEnv()
 
+	fmt.Println(os.Getenv("API_KEY"))
+	
 	fact := getData(apiKey)
 
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
