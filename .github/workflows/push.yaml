@@ -1,0 +1,51 @@
+name: Push to dockerhub
+on:
+  push:
+    branches: [main]
+env:
+  DOCKER_USER: ${{secrets.DOCKER_USER}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  
+  BUILD_CONSUMER_KEY: ${{secrets.BUILD_CONSUMER_KEY}}
+  BUILD_ACCESS_TOKEN_KEY: ${{secrets.BUILD_ACCESS_TOKEN_KEY}}
+  BUILD_CONSUMER_SECRET: ${{secrets.BUILD_CONSUMER_SECRET}}
+  BUILD_ACCESS_TOKEN_SECRET: ${{secrets.BUILD_ACCESS_TOKEN_SECRET}}
+  BUILD_API_KEY: ${{secrets.BUILD_API_KEY}}
+
+jobs:
+  push-image-to-docker-hub:  # job name
+    runs-on: ubuntu-latest  # runner name : (ubuntu latest version) 
+    steps:
+    
+    - uses: actions/checkout@v2 # first action : checkout source code
+    
+    - name: docker login
+      run: | # log into docker hub account
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD  
+    
+    - name: Build the Docker image # push The image to the docker hub
+      run: |
+        docker build . -t tronconneur/twitter-bot:${{ github.sha }} \
+          --build-arg BUILD_CONSUMER_KEY=$BUILD_CONSUMER_KEY \
+          --build-arg BUILD_ACCESS_TOKEN_KEY=$BUILD_ACCESS_TOKEN_KEY \
+          --build-arg BUILD_CONSUMER_SECRET=$BUILD_CONSUMER_SECRET \
+          --build-arg BUILD_API_KEY=$BUILD_API_KEY \
+          --build-arg BUILD_ACCESS_TOKEN_SECRET=$BUILD_ACCESS_TOKEN_SECRET
+    
+    - name: Docker Push
+      run: docker push tronconneur/twitter-bot:${{ github.sha }}
+
+    - name: Find and Replace
+      uses: jacobtomlinson/gha-find-replace@v2
+      with:
+        find: "{{TAG}}"
+        replace: ${{ github.sha }}
+        regex: false
+        exclude: .github/**
+    
+    - name: Commit changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: prod
+        skip_checkout: true
+        push_options: '--force'

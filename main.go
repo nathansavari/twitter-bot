@@ -14,7 +14,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// C:\MinGW\bin
 
 
 func main(){
@@ -22,24 +21,19 @@ func main(){
 	// load .env file from given path
 	// we keep it empty it will load .env from current directory
 
-	err := godotenv.Load(".env")
-	
-	
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	// getting env variables 
-
 	if os.Getenv("ENV") != "prod" {
-		
-	
+		err := godotenv.Load(".env")
+
+		if err != nil {
+			log.Fatalf("Error loading .env file")
+		}
 	}
+
+	// getting env variables
+
 
 	consumerKey, consumerSecret, accessToken, accessTokenSecret, apiKey := getEnv()
-
-
-	fact := getData(apiKey)
+	
 
 	config := oauth1.NewConfig(consumerKey, consumerSecret)
 	token := oauth1.NewToken(accessToken, accessTokenSecret)
@@ -56,29 +50,30 @@ func main(){
 
 	fmt.Printf("Account: @%s (%s)\n", user.ScreenName, user.Name)
 
-
 	for {
 
+		
+
 		if getDate() == "12:00:00" {
-			
-		// the tweet
 
-		_, _, err = client.Statuses.Update(fact, nil)
-		if err != nil {
-			fmt.Printf("err: %v\n", err)
-		} else {
-			fmt.Println("Twitted successfully!")
+			fact := getData(apiKey)
+
+			// the tweet
+
+			_, _, err = client.Statuses.Update(fact, nil)
+			if err != nil {
+				fmt.Printf("err: %v\n", err)
+			} else {
+				fmt.Println("Twitted successfully!")
+			}
+
 		}
-
-		} 
 
 	}
 
 }
 
 func getEnv() (string, string, string, string, string) {
-
-	
 
 	consumerKey := os.Getenv("CONSUMER_KEY")
 	consumerSecret := os.Getenv("CONSUMER_SECRET")
@@ -91,18 +86,18 @@ func getEnv() (string, string, string, string, string) {
 
 func getDate() string {
 
-    dt := time.Now()
+	dt := time.Now()
 	now := dt.Format(("15:04:05"))
 
 	return now
 }
 
-func getData(apiKey string) string  {
+func getData(apiKey string) string {
 
 	type Obj struct {
 		Fact string `json:"fact"`
 	}
-	
+
 	// init the objet
 
 	var data []Obj
@@ -125,20 +120,10 @@ func getData(apiKey string) string  {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	// put bytes in the object
-	
+
 	json.Unmarshal(body, &data)
 
 	fact := data[0].Fact
 
 	return fact
 }
-
-// func dbConnect() {
-// 	db, err := sql.Open("sqlite3", "./database.db")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	fmt.Printf("Database: %v\n", db)
-
-// }
