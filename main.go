@@ -14,23 +14,30 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// C:\MinGW\bin
+
 
 func main(){
-
-	getDate()
 
 	// load .env file from given path
 	// we keep it empty it will load .env from current directory
 
 	err := godotenv.Load(".env")
-
+	
+	
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
 
 	// getting env variables 
 
+	if os.Getenv("ENV") != "prod" {
+		
+	
+	}
+
 	consumerKey, consumerSecret, accessToken, accessTokenSecret, apiKey := getEnv()
+
 
 	fact := getData(apiKey)
 
@@ -70,6 +77,8 @@ func main(){
 }
 
 func getEnv() (string, string, string, string, string) {
+
+	
 
 	consumerKey := os.Getenv("CONSUMER_KEY")
 	consumerSecret := os.Getenv("CONSUMER_SECRET")
@@ -123,3 +132,13 @@ func getData(apiKey string) string  {
 
 	return fact
 }
+
+// func dbConnect() {
+// 	db, err := sql.Open("sqlite3", "./database.db")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	fmt.Printf("Database: %v\n", db)
+
+// }
