@@ -20,5 +20,5 @@ spec:
     spec:
       containers:
         - name: twitter-bot
-          image: tronconneur/twitter-bot:{{TAG}}
+          image: tronconneur/twitter-bot:0eb52fede2a638faa7a03e1c0a28dd46562493e5
           imagePullPolicy: Always
