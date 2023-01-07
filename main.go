@@ -52,9 +52,8 @@ func main(){
 
 	for {
 
-		
 
-		if getDate() == "12:00:00" {
+		if getDate() == "18:00:00" {
 
 			fact := getData(apiKey)
 
